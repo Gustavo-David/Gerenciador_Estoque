@@ -7,60 +7,50 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.GerenciadoEstoque.Entities.Products;
-import com.GerenciadoEstoque.Entities.ProductsException;
-import com.GerenciadoEstoque.Repository.ProductsRepository;
 import com.GerenciadoEstoque.Services.ProductsService;
 
 @RestController
-@RequestMapping("/Productss")
+@RequestMapping("/products")
 public class ProductsController {
 
     @Autowired
-    private ProductsRepository productsRepository;
+    private ProductsService productsService;
 
-    @Autowired
-    private ProductsService ProductsService;
-
+    // Salvar ou atualizar um produto
     @PostMapping
-    public Products saveProducts(@RequestBody Products Products) {
-        return ProductsService.saveProducts(Products);
+    public Products saveOrUpdateProduct(@RequestBody Products product) {
+        return productsService.saveOrUpdateProduct(product);
     }
 
-    @PutMapping("/{id}")
-    public Products updateProduct(@PathVariable Long id, @RequestBody Products product) {
-        // Busque o produto pelo ID
-        Products existingProduct = productsRepository.findById(id)
-                .orElseThrow(() -> new ProductsException("Product not found with ID: " + id));
-
-        // Atualize os campos permitidos
-        existingProduct.setName(product.getName());
-        existingProduct.setDescription(product.getDescription());
-        existingProduct.setQuantity(product.getQuantity());
-        existingProduct.setBuyPrice(product.getBuyPrice()); 
-        existingProduct.setSellPrice(product.getSellPrice());
-        existingProduct.setCategory(product.getCategory());
-
-        // Salve as mudanças
-        return productsRepository.save(existingProduct);
-    }
-
+    // Deletar um produto
     @DeleteMapping("/{id}")
-    public void deleteProducts(@PathVariable Long id) {
-        ProductsService.deleteProducts(id);
+    public void deleteProduct(@PathVariable Long id) {
+        productsService.deleteProduct(id);
     }
 
-    @GetMapping
-    public List<Products> listProductss(
+    // Listar produtos com filtros
+    @GetMapping("/list")
+    public List<Products> listProducts(
             @RequestParam(required = false) String name,
-            @RequestParam(required = false) String category,
-            @RequestParam(required = false) Integer Quantity) {
-        return ProductsService.listProductss(name, category, Quantity);
+            @RequestParam(required = false) String categoryName,
+            @RequestParam(required = false) Integer stockQuantity) {
+        return productsService.listProducts(name, categoryName, stockQuantity);
+    }
+
+    // Cadastrar produto com categoria
+    @PostMapping("/cadastrar")
+    public void cadastrarProdutoCategoria(@RequestBody Products product) {
+        productsService.cadastrarProdutoCategoria(
+                product.getName(),
+                product.getCategory().getName(),
+                product.getBuyPrice(),
+                product.getSellPrice(),
+                product.getQuantity());
     }
 }

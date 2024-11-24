@@ -1,35 +1,39 @@
 package com.GerenciadoEstoque.Services;
 
 import java.util.List;
-import java.util.Locale.Category;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.GerenciadoEstoque.Repository.CategoryRepository;
+import com.GerenciadoEstoque.Entities.ProductsCategory;  // Importando sua classe ProductsCategory
+import com.GerenciadoEstoque.Repository.ProductsCategoryRepository;  // Repositório da ProductsCategory
 
 @Service
 public class CategoryService {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private ProductsCategoryRepository productsCategoryRepository;
 
-    public Category saveCategory(Category category) {
-        return categoryRepository.save(category);
+    // Método para salvar uma nova categoria de produto
+    public ProductsCategory saveCategory(ProductsCategory category) {
+        return productsCategoryRepository.save(category);
     }
 
-    public Category updateCategory(Category category) {
-        return categoryRepository.save(category);
+    // Método para atualizar uma categoria de produto existente
+    public ProductsCategory updateCategory(ProductsCategory category) {
+        return productsCategoryRepository.save(category);
     }
 
+    // Método para excluir uma categoria pelo id
     public void deleteCategory(Long id) {
-        categoryRepository.deleteById(id);
+        productsCategoryRepository.deleteById(id);
     }
 
-    public List<Category> listCategories(String name) {
+    // Método para listar todas as categorias ou filtrar pelo nome
+    public List<ProductsCategory> listCategories(String name) {
         if (name != null) {
-            return categoryRepository.findByNameContainingIgnoreCase(name);
+            return productsCategoryRepository.findByNameContainingIgnoreCase(name);
         }
-        return categoryRepository.findAll();
+        return productsCategoryRepository.findAll();
     }
 }
