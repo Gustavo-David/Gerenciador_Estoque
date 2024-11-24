@@ -3,6 +3,8 @@ package com.GerenciadoEstoque.Controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,11 @@ import com.GerenciadoEstoque.Services.ProductsService;
 @RestController
 @RequestMapping("/products")
 public class ProductsController {
+
+    @GetMapping("/test")
+    public String test() {
+        return "Server is running!";
+    }
 
     @Autowired
     private ProductsService productsService;
@@ -45,12 +52,14 @@ public class ProductsController {
 
     // Cadastrar produto com categoria
     @PostMapping("/cadastrar")
-    public void cadastrarProdutoCategoria(@RequestBody Products product) {
+    public ResponseEntity<Void> cadastrarProdutoCategoria(@RequestBody Products product) {
         productsService.cadastrarProdutoCategoria(
                 product.getName(),
                 product.getCategory().getName(),
                 product.getBuyPrice(),
                 product.getSellPrice(),
                 product.getQuantity());
+        return ResponseEntity.status(HttpStatus.CREATED).build(); // Status 201 para criação bem-sucedida
     }
+
 }
