@@ -15,7 +15,7 @@ public class DbConnection {
         if (connection != null) {
             try {
                 Properties props = loadProperties();
-                String url = props.getProperty("dburl");
+                String url = props.getProperty("spring.datasource.url");
                 connection = DriverManager.getConnection(url, props);
 
             } catch (SQLException Erro) {
@@ -26,7 +26,7 @@ public class DbConnection {
     }
 
     private static Properties loadProperties() {
-        try (FileInputStream fs = new FileInputStream("db.properties")) {
+        try (FileInputStream fs = new FileInputStream("application.properties")) {
 
             Properties props = new Properties();
             props.load(fs);
