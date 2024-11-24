@@ -2,16 +2,17 @@ package com.GerenciadoEstoque.Entities;
 
 import java.io.Serializable;
 
-import com.GerenciadoEstoque.EntitiesStatus.ProductsCategory;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
 @Entity
-public class Products implements Serializable{
-    
+public class Products implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,20 +20,26 @@ public class Products implements Serializable{
     private String description;
     private Integer quantity;
     private Double buyPrice;
-    private Double shellPrive;
+    private Double sellPrice;
+
+    @ManyToOne
     private ProductsCategory category;
 
     public Products() {
-
     }
 
-    public Products(String name, String description, Integer quantity, Double buyPrice, Double shellPrive, ProductsCategory category) {
+    public Products(String name, String description, Integer quantity, Double buyPrice, Double sellPrice,
+            ProductsCategory category) {
         this.name = name;
         this.description = description;
         this.quantity = quantity;
         this.buyPrice = buyPrice;
-        this.shellPrive = shellPrive;
+        this.sellPrice = sellPrice;
         this.category = category;
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -67,12 +74,12 @@ public class Products implements Serializable{
         this.buyPrice = buyPrice;
     }
 
-    public Double getShellPrive() {
-        return shellPrive;
+    public Double getSellPrice() {
+        return sellPrice;
     }
 
-    public void setShellPrive(Double shellPrive) {
-        this.shellPrive = shellPrive;
+    public void setSellPrice(Double sellPrice) {
+        this.sellPrice = sellPrice;
     }
 
     public ProductsCategory getCategory() {
@@ -110,8 +117,8 @@ public class Products implements Serializable{
 
     @Override
     public String toString() {
-        return "Products [id=" + id + ", name=" + name + ", description=" + description + ", quantity=" + quantity + ", buyPrice=" + buyPrice + ", shellPrive=" + shellPrive + ", category=" + category + "]";
+        return "Products [id=" + id + ", name=" + name + ", description=" + description
+                + ", quantity=" + quantity + ", buyPrice=" + buyPrice
+                + ", sellPrice=" + sellPrice + ", category=" + category + "]";
     }
-    
-
 }
