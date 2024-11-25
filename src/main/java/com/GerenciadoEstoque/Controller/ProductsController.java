@@ -31,11 +31,6 @@ public class ProductsController {
     @Autowired
     private CategoryRepository categoriaRepository;
 
-    @GetMapping("/test")
-    public String test() {
-        return "Server is running!";
-    }
-
     @Autowired
     private ProductsService productsService;
 
@@ -44,12 +39,14 @@ public class ProductsController {
     public Products saveOrUpdateProduct(@RequestBody Products product) {
         return productsService.saveOrUpdateProduct(product);
     }
+
     @GetMapping("/")
     public String index(Model model) {
         // Você pode adicionar dados ao modelo que serão usados no HTML
         model.addAttribute("message", "Bem-vindo ao Sistema de Estoque!");
         return "index"; // Retorna o arquivo index.html de /templates
     }
+
     // Deletar um produto
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
@@ -66,41 +63,41 @@ public class ProductsController {
     }
 
     @PostMapping("/cadastrar")
-public ResponseEntity<String> cadastrarProdutoCategoria(@RequestBody Products produto) {
-    if (produto.getCategory() == null || produto.getCategory().getName() == null) {
-        return ResponseEntity.badRequest().body("A categoria precisa ter um nome.");
+    public ResponseEntity<String> cadastrarProdutoCategoria(@RequestBody Products produto) {
+        if (produto.getCategory() == null || produto.getCategory().getName() == null) {
+            return ResponseEntity.badRequest().body("A categoria precisa ter um nome.");
+        }
+
+        if (produto.getBuyPrice() == null || produto.getSellPrice() == null) {
+            return ResponseEntity.badRequest().body("O preço de compra e venda devem ser fornecidos.");
+        }
+
+        // Criação ou busca da categoria no banco de dados
+        ProductsCategory categoria = produto.getCategory();
+
+        // Buscar categoria pelo nome e verificar se existe
+        List<ProductsCategory> categoriasExistentes = categoriaRepository.findByName(categoria.getName());
+
+        // Se a lista de categorias existentes não for vazia, pega o primeiro elemento
+        Optional<ProductsCategory> categoriaExistente = categoriasExistentes.stream().findFirst();
+
+        if (categoriaExistente.isEmpty()) {
+            categoriaRepository.save(categoria);
+        } else {
+            categoria = categoriaExistente.get(); // Atribui a categoria já existente
+        }
+
+        // Atribuindo categoria ao produto
+        produto.setCategory(categoria);
+
+        // Atribuindo preços de compra e venda ao produto
+        produto.setBuyPrice(produto.getBuyPrice());
+        produto.setSellPrice(produto.getSellPrice());
+
+        // Salvando o produto no banco de dados
+        productsRepository.save(produto);
+
+        return ResponseEntity.ok("Produto e categoria cadastrados com sucesso!");
     }
-
-    if (produto.getBuyPrice() == null || produto.getSellPrice() == null) {
-        return ResponseEntity.badRequest().body("O preço de compra e venda devem ser fornecidos.");
-    }
-
-    // Criação ou busca da categoria no banco de dados
-    ProductsCategory categoria = produto.getCategory();
-    
-    // Buscar categoria pelo nome e verificar se existe
-    List<ProductsCategory> categoriasExistentes = categoriaRepository.findByName(categoria.getName());
-    
-    // Se a lista de categorias existentes não for vazia, pega o primeiro elemento
-    Optional<ProductsCategory> categoriaExistente = categoriasExistentes.stream().findFirst();
-    
-    if (categoriaExistente.isEmpty()) {
-        categoriaRepository.save(categoria);
-    } else {
-        categoria = categoriaExistente.get(); // Atribui a categoria já existente
-    }
-
-    // Atribuindo categoria ao produto
-    produto.setCategory(categoria);
-
-    // Atribuindo preços de compra e venda ao produto
-    produto.setBuyPrice(produto.getBuyPrice());
-    produto.setSellPrice(produto.getSellPrice());
-
-    // Salvando o produto no banco de dados
-    productsRepository.save(produto);
-
-    return ResponseEntity.ok("Produto e categoria cadastrados com sucesso!");
-}
 
 }

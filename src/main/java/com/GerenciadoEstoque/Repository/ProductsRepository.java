@@ -22,27 +22,27 @@ public interface ProductsRepository extends JpaRepository<Products, Long> {
 
     // Buscar produtos com quantidade de estoque abaixo de um valor e adicionar
     // paginação
-    Page<Products> findByQuantityLessThan(int quantity, Pageable pageable); // Alterado para 'quantity'
+    Page<Products> findByQuantityLessThan(int quantity, Pageable pageable); 
 
     List<Products> findByNameContainingIgnoreCaseAndCategoryNameAndQuantityLessThan(String name,
-            String categoryName, int quantity); // Alterado para 'quantity'
+            String categoryName, int quantity); 
 
     List<Products> findByNameContainingIgnoreCaseAndCategoryName(String name, String categoryName);
 
-    List<Products> findByCategoryNameAndQuantityLessThan(String categoryName, int quantity); // Alterado para 'quantity'
+    List<Products> findByCategoryNameAndQuantityLessThan(String categoryName, int quantity); 
 
     List<Products> findByNameContainingIgnoreCase(String name);
 
     List<Products> findByCategoryName(String categoryName);
 
-    List<Products> findByQuantityLessThan(int quantity); // Alterado para 'quantity'
+    List<Products> findByQuantityLessThan(int quantity); 
 
-    List<Products> findByQuantityLessThan(Integer quantity); // Alterado para 'quantity'
+    List<Products> findByQuantityLessThan(Integer quantity); 
 
-    List<Products> findByCategoryNameAndQuantityLessThan(String categoryName, Integer quantity); // Alterado para 'quantity'
+    List<Products> findByCategoryNameAndQuantityLessThan(String categoryName, Integer quantity); 
 
     List<Products> findByNameContainingIgnoreCaseAndCategoryNameAndQuantityLessThan(String name,
-            String categoryName, Integer quantity); // Alterado para 'quantity'
+            String categoryName, Integer quantity); 
 
     @Procedure(name = "CadastrarProdutoCategoria")
     void cadastrarProdutoCategoria(String nomeProduto, String categoriaProduto,

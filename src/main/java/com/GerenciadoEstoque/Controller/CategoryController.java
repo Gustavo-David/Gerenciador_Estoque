@@ -24,7 +24,7 @@ public class CategoryController {
     @Autowired
     private CategoryService categoryService;
 
-    @PostMapping
+    @PostMapping("/cadastrar")
     public ProductsCategory saveCategory(@RequestBody ProductsCategory category) {
         return categoryService.saveCategory(category);
     }
