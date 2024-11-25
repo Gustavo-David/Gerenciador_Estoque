@@ -2,10 +2,13 @@ package com.GerenciadoEstoque.Entities;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
 @Entity
@@ -23,6 +26,8 @@ public class Products implements Serializable {
     private Double sellPrice;
 
     @ManyToOne
+    @JoinColumn(name = "category_id")
+    @JsonBackReference
     private ProductsCategory category;
 
     public Products() {
