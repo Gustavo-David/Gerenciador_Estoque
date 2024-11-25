@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciamento de Estoque</title>
+    <link rel="stylesheet" href="static\css\styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#cadastro-produto">Cadastrar Produto</a></li>
+                <li><a href="#listagem-produtos">Listar Produtos</a></li>
+                <li><a href="#consultar-produtos">Consultar Produtos</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="cadastro-produto">
+            <h2>Cadastrar Produto</h2>
+            <form id="form-cadastro" method="POST" action="/cadastrar">
+                <label for="product-name">Nome do Produto:</label>
+                <input type="text" id="product-name" name="name" required>
+
+                <label for="product-description">Descrição:</label>
+                <input type="text" id="product-description" name="description" required>
+
+                <label for="product-quantity">Quantidade em Estoque:</label>
+                <input type="number" id="product-quantity" name="quantity" required>
+
+                <label for="buy-price">Preço de Compra:</label>
+                <input type="number" id="buy-price" name="buyPrice" step="0.01" required>
+
+                <label for="sell-price">Preço de Venda:</label>
+                <input type="number" id="sell-price" name="sellPrice" step="0.01" required>
+
+                <label for="product-category">Categoria:</label>
+                <input type="text" id="product-category" name="category" required>
+
+                <button type="submit">Cadastrar</button>
+            </form>
+        </section>
+
+        <section id="listagem-produtos">
+            <h2>Listagem de Produtos</h2>
+            <!-- A listagem de produtos será carregada aqui dinamicamente -->
+            <div id="products-list">
+                <!-- Exemplo de um produto na lista -->
+                <div class="product-item">
+                    <h3>Produto Exemplo</h3>
+                    <p>Quantidade: 50</p>
+                    <p>Preço de Compra: R$ 100,00</p>
+                    <p>Preço de Venda: R$ 150,00</p>
+                    <p>Categoria: Exemplo</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="consultar-produtos">
+            <h2>Consultar Produtos</h2>
+            <form id="form-consulta">
+                <label for="search-name">Nome:</label>
+                <input type="text" id="search-name" name="name" placeholder="Pesquisar por nome">
+
+                <label for="search-category">Categoria:</label>
+                <input type="text" id="search-category" name="category" placeholder="Pesquisar por categoria">
+
+                <label for="search-quantity">Quantidade em Estoque:</label>
+                <input type="number" id="search-quantity" name="quantity" placeholder="Pesquisar por quantidade">
+
+                <button type="submit">Consultar</button>
+            </form>
+
+            <div id="search-results">
+                <!-- Os resultados da consulta serão exibidos aqui -->
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Gerenciamento de Estoque. Todos os direitos reservados.</p>
+    </footer>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
