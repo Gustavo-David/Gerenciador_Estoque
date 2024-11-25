@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -43,7 +44,12 @@ public class ProductsController {
     public Products saveOrUpdateProduct(@RequestBody Products product) {
         return productsService.saveOrUpdateProduct(product);
     }
-
+    @GetMapping("/")
+    public String index(Model model) {
+        // Você pode adicionar dados ao modelo que serão usados no HTML
+        model.addAttribute("message", "Bem-vindo ao Sistema de Estoque!");
+        return "index"; // Retorna o arquivo index.html de /templates
+    }
     // Deletar um produto
     @DeleteMapping("/{id}")
     public void deleteProduct(@PathVariable Long id) {
