@@ -29,7 +29,7 @@ public class CategoryController {
         return categoryService.saveCategory(category);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public ProductsCategory updateCategory(@RequestBody ProductsCategory category) {
         return categoryService.updateCategory(category);
     }
@@ -39,7 +39,7 @@ public class CategoryController {
         categoryService.deleteCategory(id);
     }
 
-    @GetMapping
+    @GetMapping("/list")
     public List<ProductsCategory> listCategories(@RequestParam(required = false) String name) {
         return categoryService.listCategories(name);
     }
